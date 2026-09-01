@@ -1,0 +1,100 @@
+{
+  "business": {
+    "name": "AG Nails",
+    "masterName": "Анастасия",
+    "city": "Самара",
+    "phoneDisplay": "+7 000 000-00-00",
+    "phoneE164": "+70000000000",
+    "workingHours": {
+      "label": "Пн–Вс: 10:00–20:00",
+      "opens": "10:00",
+      "closes": "20:00"
+    },
+    "address": {
+      "streetAddress": "ул. Санфировой, 95/1, офис 616",
+      "shortAddress": "ул. Санфировой, 95/1",
+      "details": "5 этаж · офис 616",
+      "landmark": "ориентир — ЖК «Центральный»",
+      "locality": "Самара",
+      "country": "RU"
+    },
+    "rating": {
+      "value": "5.0",
+      "reviewCount": 19,
+      "ratingCount": 202
+    },
+    "priceRange": "1500-2500 ₽"
+  },
+  "hero": {
+    "eyebrow": "AG Nails · Самара",
+    "titleLine1": "Маникюр и педикюр.",
+    "titleLine2": "Анастасия.",
+    "description": "Маникюр и педикюр в Самаре. Более 6 лет опыта."
+  },
+  "copy": {
+    "worksTitle": "Нюд и сложные дизайны",
+    "worksDescription": "Реальные работы и палитры.",
+    "pricesTitle": "Актуальный прайс",
+    "pricesDescription": "Основные услуги и стоимость.",
+    "priceNote": "Доплата с 3 длины — 100 ₽ за каждый размер.",
+    "locationTitle": "Самара, Санфировой 95/1.",
+    "locationDescription": "5 этаж, офис 616. Карта интерактивная.",
+    "bookingTitle": "Онлайн-запись в DIKIDI",
+    "bookingDescription": "Выберите услугу и свободное время.",
+    "footerText": "Анастасия · маникюр и педикюр в Самаре"
+  },
+  "links": {
+    "dikidi": "https://dikidi.net/ru/profile/anastasiya_1643065",
+    "vk": "https://vk.com/ag_nails_bz",
+    "telegram": "https://t.me/agnailsdz",
+    "max": "https://max.ru/ag_nails_smr",
+    "whatsapp": "https://wa.me/70000000000",
+    "yandexMaps": "https://yandex.ru/maps/?text=Самара%2C%20улица%20Санфировой%2C%2095%2F1",
+    "yandexMapWidget": "https://yandex.ru/map-widget/v1/?mode=search&text=%D0%A1%D0%B0%D0%BC%D0%B0%D1%80%D0%B0%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%A1%D0%B0%D0%BD%D1%84%D0%B8%D1%80%D0%BE%D0%B2%D0%BE%D0%B9%2C%2095%2F1&z=16"
+  },
+  "works": [
+    { "id": "work-white", "src": "/images/work-white.png", "title": "Молочный нюд", "alt": "Молочный маникюр с ровной архитектурой" },
+    { "id": "work-lines", "src": "/images/work-lines.png", "title": "Тонкие линии", "alt": "Нюдовый маникюр с тонкими чёрными линиями" },
+    { "id": "palette-chameleon", "src": "/images/palette-chameleon.png", "title": "Cat eye", "alt": "Палитра переливающихся оттенков" },
+    { "id": "work-lines-close", "src": "/images/work-lines-close.png", "title": "Графичный нюд", "alt": "Крупный план дизайна с линиями" },
+    { "id": "palette-caramel", "src": "/images/palette-caramel.png", "title": "Тёплая палитра", "alt": "Палитра карамельных оттенков" },
+    { "id": "palette-bright", "src": "/images/palette-bright.png", "title": "Сияние", "alt": "Палитра глубоких оттенков с блеском" },
+    { "id": "palette-wine", "src": "/images/palette-wine.png", "title": "Wine", "alt": "Палитра винных оттенков" },
+    { "id": "palette-glitter", "src": "/images/palette-glitter.png", "title": "Glitter", "alt": "Палитра блестящих оттенков" }
+  ],
+  "priceGroups": [
+    {
+      "title": "Маникюр",
+      "items": [
+        { "name": "Наращивание ногтей", "price": "2500 ₽" },
+        { "name": "Коррекция", "price": "2000 ₽" },
+        { "name": "Без покрытия", "price": "1500 ₽" }
+      ]
+    },
+    {
+      "title": "Педикюр",
+      "items": [
+        { "name": "Полный комплекс", "price": "2000 ₽" },
+        { "name": "Экспресс-педикюр", "price": "1700 ₽" },
+        { "name": "Без покрытия", "price": "1500 ₽" }
+      ]
+    },
+    {
+      "title": "Дополнительно",
+      "items": [
+        { "name": "SPA-уход", "price": "400 ₽" },
+        { "name": "Френч / втирка", "price": "200 ₽" },
+        { "name": "Дизайны", "price": "50–400 ₽" },
+        { "name": "Снятие без покрытия", "price": "400 ₽" }
+      ]
+    }
+  ],
+  "reviews": [
+    { "id": "review-2026-07-13-anon", "name": "Анонимный отзыв", "date": "13 июля 2026", "service": "Коррекция", "text": "Как всегда в восторге! Полюбила френч благодаря этой феечке.", "rating": 5 },
+    { "id": "review-2026-06-17-polina-pedicure", "name": "Полина Языванова", "date": "17 июня 2026", "service": "Экспресс-педикюр", "text": "Доверяю свои ручки только Насте — лучший мастер маникюра.", "rating": 5 },
+    { "id": "review-2026-06-17-polina-manicure", "name": "Полина Языванова", "date": "17 июня 2026", "service": "Маникюр и покрытие", "text": "Аккуратный маникюр, идеальная архитектура, мастер — просто милашка.", "rating": 5 },
+    { "id": "review-2026-05-24-ekaterina", "name": "Екатерина Соколова", "date": "24 мая 2026", "service": "Наращивание ногтей", "text": "Сделали потрясающий молочный градиент! Ношу уже третью неделю без единого скола.", "rating": 5 },
+    { "id": "review-2026-05-08-daria", "name": "Дарья Мельникова", "date": "8 мая 2026", "service": "Полный комплекс", "text": "Уютная студия, идеальная стерильность инструментов и очень внимательное отношение к кутикуле.", "rating": 5 },
+    { "id": "review-2026-04-19-alina", "name": "Алина Воронова", "date": "19 апреля 2026", "service": "Сложный дизайн", "text": "Тонкие графичные линии нарисованы вручную с ювелирной точностью. Спасибо, Анастасия!", "rating": 5 }
+  ]
+}
