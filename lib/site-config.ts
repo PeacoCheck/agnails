@@ -1,4 +1,4 @@
-const fallbackSiteUrl = 'http://78.17.74.215/';
+const fallbackSiteUrl = 'https://agnails.ru/';
 
 export function getSiteUrl() {
   const value = process.env.NEXT_PUBLIC_SITE_URL?.trim() || fallbackSiteUrl;
@@ -19,4 +19,3 @@ export const adminConfig = {
   sessionHours: 24,
   maxUploadBytes: 5 * 1024 * 1024,
 };
-
