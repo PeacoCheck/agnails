@@ -42,7 +42,6 @@ export function canonicalizeSiteContent(input: unknown): SiteContent {
   return siteContentSchema.parse(candidate);
 }
 
-
 async function createBackup() {
   await mkdir(backupDir, { recursive: true });
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -70,7 +69,7 @@ export async function processAndSaveWorkPhoto(
   buffer: Buffer,
   title: string,
   alt: string
-): Promise<{ src: string; title: string; alt: string }> {
+): Promise<{ src: string; title: string; alt: string; id: string }> {
   await mkdir(worksUploadDir, { recursive: true });
 
   const image = sharp(buffer);
@@ -80,7 +79,8 @@ export async function processAndSaveWorkPhoto(
     throw new Error('Поддерживаются только форматы JPEG, PNG, WebP и AVIF.');
   }
 
-  const filename = `work-${crypto.randomUUID().slice(0, 12)}.webp`;
+  const id = `work-${crypto.randomUUID().slice(0, 12)}`;
+  const filename = `${id}.webp`;
   const targetPath = path.join(worksUploadDir, filename);
 
   await image
@@ -92,12 +92,12 @@ export async function processAndSaveWorkPhoto(
   const src = `/images/works/${filename}`;
   const currentContent = await getSiteContent();
   currentContent.works.unshift({
+    id,
     src,
     title: title.trim() || 'Новая работа',
     alt: alt.trim() || title.trim() || 'Работа мастера',
   });
 
   await writeSiteContent(currentContent);
-  return { src, title, alt };
+  return { src, title, alt, id };
 }
-

@@ -55,7 +55,7 @@ const defaultPromos: PromoCode[] = [
   {
     code: 'HELLO',
     discount: 'Скидка 10% на первый визит',
-    dikidiUrl: 'https://dikidi.net/ru/profile/anastasiya_1643065',
+    dikidiUrl: 'https://dikidi.ru/#widget=217338',
     maxUses: 100,
     usedCount: 0,
     active: true,
@@ -253,7 +253,7 @@ export async function applyPromo(
     // Valid activation (new client OR same-day repeated entry)
     success = true;
     discount = promo.discount;
-    dikidiUrl = promo.dikidiUrl || 'https://dikidi.net/ru/profile/anastasiya_1643065';
+    dikidiUrl = promo.dikidiUrl || 'https://dikidi.ru/#widget=217338';
     
     promo.usedCount += 1;
     await savePromoCodes(promos);

@@ -16,14 +16,13 @@ export default function WorkGallery({ works }: { works: WorkItem[] }) {
   };
 
   return (
-    <>
-      <div className="gallery-tools">
-        <span>Листайте работы</span>
-        <div>
-          <button type="button" onClick={() => move(-1)} aria-label="Предыдущие работы">←</button>
-          <button type="button" onClick={() => move(1)} aria-label="Следующие работы">→</button>
-        </div>
-      </div>
+    <div className="carousel-wrap">
+      <button type="button" className="carousel-arrow prev" onClick={() => move(-1)} aria-label="Предыдущие работы">
+        ←
+      </button>
+      <button type="button" className="carousel-arrow next" onClick={() => move(1)} aria-label="Следующие работы">
+        →
+      </button>
       <div className="work-track" ref={trackRef}>
         {works.map((item, index) => {
           const src = Array.isArray(item) ? item[0] : item.src;
@@ -47,7 +46,6 @@ export default function WorkGallery({ works }: { works: WorkItem[] }) {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
-

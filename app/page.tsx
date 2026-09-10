@@ -1,8 +1,11 @@
-import WorkGallery from './WorkGallery';
+import WorksMarquee from '@/components/WorksMarquee';
 import TrackedLink from '@/components/TrackedLink';
 import PromoWidget from '@/components/PromoWidget';
+import BookingNudge from '@/components/BookingNudge';
+import ReviewsMarquee from '@/components/ReviewsMarquee';
 import { getSiteContent } from '@/lib/site-content';
-
+import { DIKIDI_WIDGET_HREF } from '@/lib/dikidi-widget';
+import Link from 'next/link';
 
 export const revalidate = 60;
 
@@ -10,7 +13,7 @@ export default async function Home() {
   const content = await getSiteContent();
 
   const socials = [
-    { label: 'WhatsApp', href: content.links.whatsapp, icon: '/icons/whatsapp.svg', goal: 'contact_whatsapp' as const },
+    { label: 'Instagram', href: content.links.whatsapp, icon: '/icons/instagram.svg', goal: 'contact_whatsapp' as const },
     { label: 'VK', href: content.links.vk, icon: '/icons/vk.svg', goal: 'social_vk' as const },
     { label: 'Telegram', href: content.links.telegram, icon: '/icons/telegram.svg', goal: 'social_telegram' as const },
     { label: 'MAX', href: content.links.max, icon: '/icons/max.svg', goal: 'social_max' as const },
@@ -21,7 +24,7 @@ export default async function Home() {
       <header className="topbar">
         <a className="logo" href="#top">{content.business.name}</a>
         <div className="topbar-info">
-          <span className="topbar-hours">🕒 {content.business.workingHours.label}</span>
+          <span className="topbar-hours">{content.business.workingHours.label}</span>
           <TrackedLink
             goal="contact_phone"
             href={`tel:${content.business.phoneE164}`}
@@ -40,7 +43,7 @@ export default async function Home() {
         <TrackedLink
           goal="booking_dikidi"
           className="nav-book"
-          href={content.links.dikidi}
+          href={DIKIDI_WIDGET_HREF}
           target="_blank"
           rel="noreferrer"
         >
@@ -49,28 +52,34 @@ export default async function Home() {
       </header>
 
       <section className="hero">
-        <div className="doodle-orbit" aria-hidden="true" />
         <div className="hero-copy">
+          <span className="hero-landmark">ТЦ «Охотный ряд»</span>
           <span className="overline">{content.hero.eyebrow}</span>
           <h1>
             {content.hero.titleLine1}<br />
             <span>{content.hero.titleLine2}</span>
           </h1>
-          <p>{content.hero.description}</p>
           <div className="hero-actions">
             <TrackedLink
               goal="booking_dikidi"
               className="primary"
-              href={content.links.dikidi}
+              href={DIKIDI_WIDGET_HREF}
               target="_blank"
               rel="noreferrer"
             >
-              <img src="/icons/dikidi.ico" alt="" />
+              <img src="/icons/dikidi.png" alt="" />
               Записаться в DIKIDI <span>↗</span>
             </TrackedLink>
-            <a className="hero-link" href="#reviews">
+            <a className="hero-link hero-link-rating" href="#reviews">
               <img src="/icons/reviews.svg" alt="" />
-              Отзывы
+              <span className="hero-link-copy">
+                <b>Рейтинг DIKIDI {content.business.rating.value}</b>
+                <small>
+                  {content.business.rating.ratingCount >= 200
+                    ? '200+ оценок'
+                    : `${content.business.rating.ratingCount} оценок`}
+                </small>
+              </span>
             </a>
             <TrackedLink
               goal="route_yandex_maps"
@@ -80,7 +89,7 @@ export default async function Home() {
               rel="noreferrer"
             >
               <img src="/icons/map-marker.svg" alt="" />
-              Я на картах
+              На Яндекс Картах
             </TrackedLink>
           </div>
         </div>
@@ -91,7 +100,6 @@ export default async function Home() {
             loading="eager"
             decoding="async"
           />
-          <span className="sketch-lines" aria-hidden="true"><i /><i /><i /></span>
           <div className="master-chip">
             <img
               src="/images/anastasia.png"
@@ -101,11 +109,16 @@ export default async function Home() {
             />
             <span>
               <b>{content.business.masterName}</b>
-              nail-мастер
+              мастер маникюра
             </span>
           </div>
         </div>
       </section>
+
+      <ReviewsMarquee
+        reviews={content.reviews}
+        ratingValue={content.business.rating.value}
+      />
 
       <section className="work-showcase" id="works">
         <div className="section-head dark-head">
@@ -113,7 +126,7 @@ export default async function Home() {
           <h2>{content.copy.worksTitle}</h2>
           <p>{content.copy.worksDescription}</p>
         </div>
-        <WorkGallery works={content.works} />
+        <WorksMarquee works={content.works} />
         <TrackedLink
           goal="social_vk"
           className="quiet-link light"
@@ -121,13 +134,12 @@ export default async function Home() {
           target="_blank"
           rel="noreferrer"
         >
-          Больше работ во VK ↗
+          <img src="/icons/vk.svg" alt="" />
+          Больше работ ВКонтакте <span>↗</span>
         </TrackedLink>
       </section>
 
       <section className="prices shell" id="prices">
-
-
         <div className="section-head">
           <span>Цены</span>
           <h2>{content.copy.pricesTitle}</h2>
@@ -141,19 +153,30 @@ export default async function Home() {
                 {group.items.map((item) => (
                   <p key={item.name}>
                     <span>{item.name}</span>
+                    <i className="price-leader" aria-hidden="true" />
                     <b>{item.price}</b>
                   </p>
                 ))}
               </div>
+              <nav className="price-details" aria-label={`Подробнее: ${group.title}`}>
+                {group.title === 'Маникюр' ? <>
+                  <Link href="/manikyur-samara">О маникюре <span aria-hidden="true">→</span></Link>
+                  <Link href="/narashchivanie-nogtey-samara">Наращивание <span aria-hidden="true">→</span></Link>
+                </> : null}
+                {group.title === 'Педикюр' ? <Link href="/pedikyur-samara">О педикюре <span aria-hidden="true">→</span></Link> : null}
+                {group.title === 'Дополнительно' ? <>
+                  <Link href="/dizayn-nogtey-samara">Дизайн ногтей <span aria-hidden="true">→</span></Link>
+                </> : null}
+              </nav>
             </article>
           ))}
         </div>
         <div className="price-foot">
-          <p>{content.copy.priceNote}</p>
+          <div><p>{content.copy.priceNote}</p><Link className="context-link" href="/tseny">Полный прайс и длительность услуг <span aria-hidden="true">→</span></Link></div>
           <TrackedLink
             goal="booking_dikidi"
             className="primary"
-            href={content.links.dikidi}
+            href={DIKIDI_WIDGET_HREF}
             target="_blank"
             rel="noreferrer"
           >
@@ -162,36 +185,38 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="reviews shell" id="reviews">
-        <div className="rating-panel">
-          <span>Отзывы из DIKIDI</span>
-          <strong>{content.business.rating.value}</strong>
-          <p>{content.business.rating.ratingCount} оценок · {content.business.rating.reviewCount} отзывов</p>
-          <TrackedLink
-            goal="booking_dikidi"
-            href={`${content.links.dikidi}/reviews/`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Смотреть все ↗
-          </TrackedLink>
+      <section className="work-showcase reviews-showcase" id="reviews">
+        <div className="section-head dark-head">
+          <span>Отзывы</span>
+          <h2>Рейтинг DIKIDI {content.business.rating.value}</h2>
+          <p>
+            {content.business.rating.ratingCount >= 200
+              ? '200+ оценок'
+              : `${content.business.rating.ratingCount} оценок`}
+            {' · '}
+            {content.business.rating.reviewCount} отзывов
+          </p>
         </div>
-        <div className="review-list">
-          {content.reviews.map((review) => (
-            <article key={`${review.name}-${review.service}-${review.date}`}>
-              <div className="stars">{'★'.repeat(review.rating || 5)}</div>
-              <p>“{review.text}”</p>
-              <footer>
-                <b>{review.name}</b>
-                <span>{review.service} · {review.date}</span>
-              </footer>
-            </article>
-          ))}
-        </div>
+        <ReviewsMarquee
+          reviews={content.reviews}
+          ratingValue={content.business.rating.value}
+          className="in-section"
+        />
+        <TrackedLink
+          goal="booking_dikidi"
+          className="quiet-link light"
+          href={`${content.links.dikidi}/reviews/`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img src="/icons/dikidi.png" alt="" />
+          Все отзывы в DIKIDI <span>↗</span>
+        </TrackedLink>
       </section>
 
       <section className="location shell" id="location">
         <div className="section-head">
+          <span>Студия</span>
           <h2>{content.copy.locationTitle}</h2>
           <p>{content.copy.locationDescription}</p>
         </div>
@@ -218,11 +243,12 @@ export default async function Home() {
             >
               Маршрут <span>↗</span>
             </TrackedLink>
+            <Link className="context-link" href="/kontakty">Как найти студию <span aria-hidden="true">→</span></Link>
           </div>
         </div>
       </section>
 
-      <section className="booking shell">
+      <section className="booking shell" id="booking">
         <div>
           <span>Онлайн-запись и контакты</span>
           <h2>{content.copy.bookingTitle}</h2>
@@ -236,18 +262,18 @@ export default async function Home() {
               <img src="/icons/phone.svg" alt="" />
               <span>{content.business.phoneDisplay}</span>
             </TrackedLink>
-            <span className="booking-hours">🕒 {content.business.workingHours.label}</span>
+            <span className="booking-hours">{content.business.workingHours.label}</span>
           </div>
         </div>
         <div className="booking-actions">
           <TrackedLink
             goal="booking_dikidi"
             className="primary white"
-            href={content.links.dikidi}
+            href={DIKIDI_WIDGET_HREF}
             target="_blank"
             rel="noreferrer"
           >
-            <img src="/icons/dikidi.ico" alt="" />
+            <img src="/icons/dikidi.png" alt="" />
             Открыть DIKIDI <span>↗</span>
           </TrackedLink>
           <div className="booking-socials" aria-label="Социальные сети и мессенджеры">
@@ -290,16 +316,20 @@ export default async function Home() {
       <TrackedLink
         goal="booking_dikidi"
         className="mobile-book"
-        href={content.links.dikidi}
+        href={DIKIDI_WIDGET_HREF}
         target="_blank"
         rel="noreferrer"
       >
-        Записаться в DIKIDI <span>↗</span>
+        Записаться <span>↗</span>
       </TrackedLink>
 
-      <PromoWidget defaultDikidiUrl={content.links.dikidi} />
+      <PromoWidget defaultDikidiUrl={DIKIDI_WIDGET_HREF} />
+      <BookingNudge
+        dikidiUrl={DIKIDI_WIDGET_HREF}
+        city={content.business.city}
+        ratingValue={content.business.rating.value}
+        ratingCount={content.business.rating.ratingCount}
+      />
     </main>
   );
 }
-
-

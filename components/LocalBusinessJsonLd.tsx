@@ -1,6 +1,12 @@
 import type { SiteContent } from '@/lib/site-content-schema';
 import { getSiteUrl } from '@/lib/site-config';
 
+/** Approx. studio coordinates — ул. Санфировой, 95/2, Самара */
+const STUDIO_GEO = {
+  latitude: 53.22175,
+  longitude: 50.19196,
+} as const;
+
 export default function LocalBusinessJsonLd({ content }: { content: SiteContent }) {
   const siteUrl = getSiteUrl();
   const sameAs = [content.links.vk, content.links.telegram, content.links.max, content.links.whatsapp].filter(Boolean);
@@ -17,7 +23,13 @@ export default function LocalBusinessJsonLd({ content }: { content: SiteContent 
       '@type': 'PostalAddress',
       streetAddress: content.business.address.streetAddress,
       addressLocality: content.business.address.locality,
+      addressRegion: 'Самарская область',
       addressCountry: content.business.address.country,
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: STUDIO_GEO.latitude,
+      longitude: STUDIO_GEO.longitude,
     },
     openingHoursSpecification: [
       {
@@ -43,4 +55,3 @@ export default function LocalBusinessJsonLd({ content }: { content: SiteContent 
     />
   );
 }
-

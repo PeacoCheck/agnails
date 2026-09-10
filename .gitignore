@@ -14,16 +14,11 @@
 # next.js
 /.next/
 /.vinext/
-/.openai/
 /out/
 
 # misc
 .DS_Store
 *.pem
-*.tmp
-*.log
-backups/
-logs/
 
 # debug
 npm-debug.log*
@@ -41,3 +36,16 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+# runtime data
+/logs/
+/backups/
+/shared_files/
+/test_shared_files/
+/data/
+/.openai/
+*.tsbuildinfo
+local_share.py
+start_share.bat
+README-SYNC.txt
+

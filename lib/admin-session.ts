@@ -7,7 +7,7 @@ import { adminConfig } from './site-config';
 
 const issuer = 'ag-nails-admin';
 const audience = 'ag-nails-admin-panel';
-const defaultDevSecret = 'ag-nails-super-secure-production-jwt-session-secret-key-samara-2026';
+const defaultDevSecret = 'ag-nails-dev-only-jwt-session-secret-not-for-production';
 
 function readEnvVar(name: string): string {
   for (const filename of ['.env.production', '.env.local', '.env']) {
@@ -32,27 +32,42 @@ function readEnvVar(name: string): string {
   return '';
 }
 
+function isProduction() {
+  return process.env.NODE_ENV === 'production';
+}
+
+function requireProductionSecrets() {
+  if (!isProduction()) return;
+
+  const secret = readEnvVar('ADMIN_SESSION_SECRET');
+  const password = readEnvVar('ADMIN_PASSWORD');
+
+  if (!secret || secret.length < 32) {
+    throw new Error('ADMIN_SESSION_SECRET is required in production (min 32 characters).');
+  }
+  if (!password) {
+    throw new Error('ADMIN_PASSWORD is required in production.');
+  }
+}
 
 function getSessionSecret() {
-  const value = readEnvVar('ADMIN_SESSION_SECRET') || defaultDevSecret;
-  return new TextEncoder().encode(value);
+  requireProductionSecrets();
+  const value = readEnvVar('ADMIN_SESSION_SECRET');
+  if (isProduction()) {
+    return new TextEncoder().encode(value);
+  }
+  return new TextEncoder().encode(value || defaultDevSecret);
 }
 
 export async function verifyAdminPassword(password: string): Promise<boolean> {
+  requireProductionSecrets();
   const adminSecret = readEnvVar('ADMIN_PASSWORD');
-  console.log('[DEBUG_AUTH] Input password length:', password?.length, 'adminSecret found:', Boolean(adminSecret), 'startsWith $2:', adminSecret?.startsWith('$2'));
   if (!adminSecret) return false;
   if (adminSecret.startsWith('$2a$') || adminSecret.startsWith('$2b$') || adminSecret.startsWith('$2y$')) {
-    const matched = await bcrypt.compare(password, adminSecret);
-    console.log('[DEBUG_AUTH] bcrypt matched:', matched);
-    return matched;
+    return bcrypt.compare(password, adminSecret);
   }
-  const matched = password === adminSecret;
-  console.log('[DEBUG_AUTH] plaintext matched:', matched);
-  return matched;
+  return password === adminSecret;
 }
-
-
 
 export async function createAdminToken() {
   return new SignJWT({ role: 'admin' })
@@ -107,5 +122,3 @@ export function clearAdminCookie(response: NextResponse, request?: NextRequest) 
     maxAge: 0,
   });
 }
-
-

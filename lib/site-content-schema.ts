@@ -3,7 +3,8 @@ import { z } from 'zod';
 const shortText = z.string().trim().min(1).max(160);
 const mediumText = z.string().trim().min(1).max(600);
 const time = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
-const publicImagePath = z.string().regex(/^\/images\/[a-zA-Z0-9/_-]+\.(?:jpe?g|png|webp)$/i);
+const publicImagePath = z.string().regex(/^\/images(?:\/works)?\/[a-zA-Z0-9._-]+\.(?:jpe?g|png|webp)$/i);
+const optionalId = z.string().trim().min(1).max(80).optional();
 
 export const siteContentSchema = z.object({
   business: z.object({
@@ -60,6 +61,7 @@ export const siteContentSchema = z.object({
     yandexMapWidget: z.string().url(),
   }),
   works: z.array(z.object({
+    id: optionalId,
     src: publicImagePath,
     title: shortText,
     alt: shortText,
@@ -72,6 +74,7 @@ export const siteContentSchema = z.object({
     })).min(1).max(30),
   })).min(1).max(12),
   reviews: z.array(z.object({
+    id: optionalId,
     name: shortText,
     date: shortText,
     service: shortText,
@@ -91,11 +94,22 @@ export function normalizePhone(value: string) {
   throw new Error('Введите телефон в международном формате, например +7 999 123-45-67.');
 }
 
-export function parseWorkingHours(label: string) {
-  const matches = label.match(/([01]\d|2[0-3]):[0-5]\d/g);
-  if (matches && matches.length >= 2) {
-    return { opens: matches[0], closes: matches[1] };
-  }
-  return { opens: '10:00', closes: '20:00' };
+function padTime(value: string) {
+  const [hours, minutes] = value.split(':');
+  return `${hours.padStart(2, '0')}:${minutes}`;
 }
 
+export function parseWorkingHours(label: string) {
+  const matches = label.match(/(\d{1,2}):([0-5]\d)/g);
+  if (matches && matches.length >= 2) {
+    return { opens: padTime(matches[0]), closes: padTime(matches[1]) };
+  }
+  const loose = label.match(/(\d{1,2})\D+(\d{1,2})(?!\d)/);
+  if (loose) {
+    return {
+      opens: `${loose[1].padStart(2, '0')}:00`,
+      closes: `${loose[2].padStart(2, '0')}:00`,
+    };
+  }
+  return { opens: '08:00', closes: '23:00' };
+}
