@@ -1,12 +1,9 @@
-const fallbackSiteUrl = 'https://agnails.ru/';
+// SEO URLs must always refer to the public site. A local NEXT_PUBLIC_SITE_URL
+// can otherwise leak into canonical links, the sitemap and structured data.
+const publicSiteUrl = 'https://agnails.ru/';
 
 export function getSiteUrl() {
-  const value = process.env.NEXT_PUBLIC_SITE_URL?.trim() || fallbackSiteUrl;
-  try {
-    return new URL(value.endsWith('/') ? value : `${value}/`).toString();
-  } catch {
-    return fallbackSiteUrl;
-  }
+  return publicSiteUrl;
 }
 
 export function getYandexMetrikaId() {
