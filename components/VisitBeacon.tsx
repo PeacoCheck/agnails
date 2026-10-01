@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function VisitBeacon() {
+  const pathname = usePathname();
   useEffect(() => {
     try {
       const key = 'ag_visit_beacon';
@@ -22,7 +24,7 @@ export default function VisitBeacon() {
     } catch {
       // ignore
     }
-  }, []);
+  }, [pathname]);
 
   return null;
 }

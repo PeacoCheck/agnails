@@ -4,6 +4,7 @@ import type { ComponentPropsWithoutRef } from 'react';
 
 export type MetrikaGoal =
   | 'booking_dikidi'
+  | 'reviews_dikidi'
   | 'contact_phone'
   | 'contact_whatsapp'
   | 'social_vk'

@@ -93,6 +93,7 @@ export default async function SeoLandingPage({ landing }: { landing: SeoLanding 
           {landing.intro.map((paragraph) => (
             <p key={paragraph.slice(0, 48)}>{paragraph}</p>
           ))}
+          {['manikyur-samara', 'tseny'].includes(landing.slug) ? <p>Маникюр с покрытием включает снятие, маникюр и новое покрытие. При записи в DIKIDI выбирайте «Коррекция» — эта услуга подходит и новым клиентам без старого покрытия.</p> : null}
         </div>
         <div className="seo-hero-actions">
           <TrackedLink
@@ -120,7 +121,7 @@ export default async function SeoLandingPage({ landing }: { landing: SeoLanding 
         <div className="section-head">
           <span>Прайс</span>
           <h2>Стоимость и длительность</h2>
-          <p>Только актуальные позиции студии. Дизайн и допы — по желанию.</p>
+          <p>Длительность указана по расписанию DIKIDI. Дизайн и допы — по желанию.</p>
         </div>
         <div className="price-board seo-price-board">
           <article>

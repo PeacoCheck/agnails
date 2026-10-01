@@ -183,6 +183,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; }
+.hero-offer strong { color: var(--cream); font-weight: 600; }
 .hero-actions .primary { flex-basis: 100%; }
 
 .hero-link {

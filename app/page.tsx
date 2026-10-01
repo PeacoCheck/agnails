@@ -11,6 +11,7 @@ export const revalidate = 60;
 
 export default async function Home() {
   const content = await getSiteContent();
+  const manicurePrice = content.priceGroups.find((group) => group.title === 'Маникюр')?.items.find((item) => item.name === 'Коррекция')?.price;
 
   const socials = [
     { label: 'Instagram', href: content.links.whatsapp, icon: '/icons/instagram.svg', goal: 'contact_whatsapp' as const },
@@ -59,6 +60,7 @@ export default async function Home() {
             {content.hero.titleLine1}<br />
             <span>{content.hero.titleLine2}</span>
           </h1>
+          {manicurePrice ? <p className="hero-offer"><strong>Маникюр с покрытием — от {manicurePrice}</strong><br />Снятие, маникюр и новое покрытие входят. В DIKIDI выбирайте «Коррекция» — подходит и для первого визита.</p> : null}
           <div className="hero-actions">
             <TrackedLink
               goal="booking_dikidi"
@@ -152,7 +154,7 @@ export default async function Home() {
               <div>
                 {group.items.map((item) => (
                   <p key={item.name}>
-                    <span>{item.name}</span>
+                    <span>{group.title === 'Маникюр' && item.name === 'Коррекция' ? 'Маникюр с покрытием / коррекция' : item.name}</span>
                     <i className="price-leader" aria-hidden="true" />
                     <b>{item.price}</b>
                   </p>
@@ -203,7 +205,7 @@ export default async function Home() {
           className="in-section"
         />
         <TrackedLink
-          goal="booking_dikidi"
+          goal="reviews_dikidi"
           className="quiet-link light"
           href={`${content.links.dikidi}/reviews/`}
           target="_blank"

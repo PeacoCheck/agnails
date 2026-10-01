@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import TrackedLink from './TrackedLink';
 
 type Variant = 'a' | 'b';
 
@@ -174,7 +175,7 @@ export default function BookingNudge({ dikidiUrl, city, ratingValue, ratingCount
       observer.observe(reviewsEl);
     }
 
-    dwellTimerRef.current = window.setTimeout(() => tryShow('dwell'), 10_000);
+    dwellTimerRef.current = window.setTimeout(() => tryShow('dwell'), 30_000);
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const onMouseOut = (event: MouseEvent) => {
@@ -219,7 +220,7 @@ export default function BookingNudge({ dikidiUrl, city, ratingValue, ratingCount
           cta: 'Записаться онлайн',
         }
       : {
-          title: `${city} · ${ratingValue}★ — свободные окна на этой неделе`,
+          title: `${city} · ${ratingValue}★ — выберите удобное время`,
           text: 'Скидка 10% по промокоду HELLO на первое посещение',
           cta: 'Выбрать время',
         };
@@ -246,7 +247,8 @@ export default function BookingNudge({ dikidiUrl, city, ratingValue, ratingCount
       <p className="booking-nudge-kicker">AG Nails · запись</p>
       <h4>{copy.title}</h4>
       <p>{copy.text}</p>
-      <a
+      <TrackedLink
+        goal="booking_dikidi"
         className="booking-nudge-cta"
         href={dikidiUrl}
         target="_blank"
@@ -254,7 +256,7 @@ export default function BookingNudge({ dikidiUrl, city, ratingValue, ratingCount
         onClick={() => dismiss('cta')}
       >
         {copy.cta} <span>↗</span>
-      </a>
+      </TrackedLink>
     </aside>
   );
 }
